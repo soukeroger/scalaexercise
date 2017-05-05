@@ -11,11 +11,11 @@ import pages.Homepage
 /**
   * Created by Roger.Souke on 28/04/2017.
   */
-class TrainlineMain extends FeatureSpec with GivenWhenThen with WebBrowser with Matchers{
+class TrainlineMain extends FeatureSpec with GivenWhenThen with WebBrowser with Matchers {
   System.setProperty("webdriver.chrome.driver",
-  "C:\\Program Files\\ChromeDriver\\ChromeDriver.exe")
+    "C:\\Program Files\\ChromeDriver\\ChromeDriver.exe")
   implicit val driver: WebDriver = new ChromeDriver()
-  val homepage = PageFactory.initElements(driver, classOf[Homepage])
+  val homepage: Homepage = PageFactory.initElements(driver, classOf[Homepage])
 
   feature("To test the train line website") {
     scenario("Exercise One") {
@@ -96,11 +96,71 @@ class TrainlineMain extends FeatureSpec with GivenWhenThen with WebBrowser with 
     println(expectedDate)
     actualDate shouldBe expectedDate
   }
+
+    scenario("Exercise Four") {
+
+      Given("I am on the trainline website")
+      go to "https://www.thetrainline.com"
+
+      When("I enter in the two stations and click submit")
+
+
+      go to "https://www.thetrainline.com/"
+
+      homepage.goToWebsite
+
+      searchField("originStation").value = "Brighton"
+      searchField("destinationStation").value = "London"
+
+      click on xpath(".//*[@id='journey-type-return']")
+      homepage.nextDayButton
+      homepage.tommorrowButton
+
+      And("I click submit")
+      clickOn("submitButton")
+
+      Then("The timetable will show tomorrow's date")
+      homepage.outDateAssertText
+    }
+
+
+    scenario("Exercise Five") {
+      Given("I am on the trainline website ")
+      homepage.goToWebsite
+
+      When("I enter the two stations and click submit")
+      homepage.enterLocation(driver: WebDriver, "London", "Brighton")
+
+      Then("The page title will be correct and the one way option deselected")
+      homepage.assertpageTitle
+      homepage.returnButton
+      homepage.tommorrowButton
+      homepage.nextDayButton
+
+      And("I click on submit button")
+      homepage.submitButton
+
+      Then("The timetable will show tomorrow's date")
+      homepage.outDateAssertText
+    }
+
 }
 
-feature("To automate the trainline website"){
-  scenario("Exercise Four") {
 
-  }
 
-}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
