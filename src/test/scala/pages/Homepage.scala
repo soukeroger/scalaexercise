@@ -3,64 +3,84 @@ package pages
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
-import org.openqa.selenium.{WebDriver, WebElement}
-import org.openqa.selenium.support.FindBy
-import org.scalatest.Matchers
-import org.scalatest.selenium.WebBrowser
+import org.openqa.selenium.WebDriver
 
-import scala.reflect.internal.util.Origins.OriginId
+import utils.BaseFeatureSpec
+import scala.util.Random
+
+
+
+//import org.openqa.selenium.{WebDriver, WebElement}
+//import org.openqa.selenium.support.FindBy
+//import org.scalatest.Matchers
+//import org.scalatest.selenium.WebBrowser
+
+//import scala.reflect.internal.util.Origins.OriginId
 
 /**
   * Created by Roger.Souke on 03/05/2017.
   */
-class Homepage extends WebBrowser  with Matchers{
+object Homepage extends BaseFeatureSpec {
+  var numberOfAdults: String = ""
 
-//  @FindBy(xpath = ".//*[@id='tickets']/div/div[1]/table/thead/tr[1]/th[2]/div/h3")
-//  var outDateAssert: WebElement = _
+
+  //  @FindBy(xpath = ".//*[@id='tickets']/div/div[1]/table/thead/tr[1]/th[2]/div/h3")
+  //  var outDateAssert: WebElement = _
   //@FindBy(xpath = "..//*[@id='extendedSearchForm']/div[3]/div[1]/div/div[1]/button[2]")
   //var tommorrowButton: WebElement = _
-//  @FindBy(xpath = ".//*[@id='extendedSearchForm']/div[3]/div[2]/div/div[1]/button[2]")
-//  var nextDayButton: WebElement = _
+  //  @FindBy(xpath = ".//*[@id='extendedSearchForm']/div[3]/div[2]/div/div[1]/button[2]")
+  //  var nextDayButton: WebElement = _
 
   def outDateAssertText(implicit driver: WebDriver): Unit = {
+
+    import scala.util._
+
     val findOutDate = find(xpath(".//*[@id='tickets']/div/div[1]/table/thead/tr[1]/th[2]/div/h3")).get.text
-    findOutDate should include("Sat 6th May 2017")
+    findOutDate should include("Sun 7th May 2017")
   }
 
   def goToWebsite(implicit driver: WebDriver): Unit = {
     go to "https://www.trainline.com"
-   }
+  }
 
-  def checkoneWayCheckox(implicit driver: WebDriver) = {
-        if(checkbox("isoneway"). isSelected) checkbox("isoneway").select()
-   }
-
-  def enterLocation(implicit driver: WebDriver, originId:String, destination: String): Unit = {
-        searchField("originStation").value = "London"
-        searchField("DestinationStation").value = "Brighton"
-   }
   def assertpageTitle(implicit driver: WebDriver): Unit = {
     click on xpath(".//*[@id='master']/header/div/div/div[1]/a/i")
   }
+
   def returnButton(implicit driver: WebDriver): Unit = {
-    click on xpath(".//*[@id='extendedSearchForm']/div[3]/div[2]/h3")
+    click on xpath(".//*[@id='extendedSearchForm']/div[2]/label[2]")
   }
+
   def tommorrowButton(implicit driver: WebDriver): Unit = {
     click on xpath(".//*[@id='extendedSearchForm']/div[3]/div[1]/div/div[1]/button[2]")
-    }
+  }
 
   def nextDayButton(implicit driver: WebDriver): Unit = {
     click on xpath(".//*[@id='extendedSearchForm']/div[3]/div[2]/div/div[1]/button[2]")
-   }
+  }
 
+  def enterLocation(implicit driver: WebDriver, originId: String, destination: String): Unit = {
+    searchField("originStation").value = "London"
+    searchField("DestinationStation").value = "Brighton"
+  }
 
+  def SelectNoOfPeople() = {
+    val random = Random.nextInt(9)
+    val exactNumber = (random + 1).toString
+    numberOfAdults = exactNumber + " adults"
+    click on xpath(".//*[@id='extendedSearchForm']/div[4]/div[1]/div/button")
+    click on xpath(".//*[@id='adults']")
+    singleSel("adults").value = exactNumber
+    click on xpath(".//*[@id='extendedSearchForm']/div[4]/div[1]/div/div/button")
+
+  }
 
 
   def submitButton(implicit driver: WebDriver): Unit = {
     click on xpath(".//*[@id='submitButton']")
   }
 
-  def outDateAssert(implicit  driver: WebDriver): Unit = {
+  def outDateAssert(implicit driver: WebDriver): Unit = {
     click on xpath(".//*[@id='tickets']/div/div[1]/table/thead/tr[1]/th[2]/div/h3")
   }
 
@@ -89,12 +109,9 @@ class Homepage extends WebBrowser  with Matchers{
     actualDate shouldBe expectedDay
   }
 
+  def TimetablePage(implicit driver: WebDriver): Unit = {
+    click on xpath(".//*[@id='tickets']/div/div[1]/table/thead/tr[2]/th[2]/div")
 
-
-
-
-
-
-
+  }
 
 }
