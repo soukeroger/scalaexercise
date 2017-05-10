@@ -35,7 +35,7 @@ object Homepage extends BaseFeatureSpec {
   def outDateAssertText(implicit driver: WebDriver): Unit = {
 
     val findOutDate = find(xpath(".//*[@id='tickets']/div/div[1]/table/thead/tr[1]/th[2]/div/h3")).get.text
-    findOutDate should include("Wed 11th May 2017")
+    findOutDate should include("Thu 11th May 2017")
   }
 
   def goToWebsite(implicit driver: WebDriver): Unit = {
