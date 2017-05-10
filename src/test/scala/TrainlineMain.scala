@@ -2,12 +2,11 @@ import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
 import org.openqa.selenium.WebDriver
-import pages.Homepage
 import utils.TimetablePage
 //import org.openqa.selenium.chrome.ChromeDriver
 //import org.openqa.selenium.support.PageFactory
+import pages.Homepage
 import utils.BaseFeatureSpec
-import pages.(Homepage, TimetablePage)
 
 //import org.openqa.selenium.WebDriver
 //import org.openqa.selenium.chrome.ChromeDriver
@@ -153,31 +152,32 @@ class TrainlineMain extends BaseFeatureSpec {
     }
 
   }
-  feature("To automate the trailine website")
-  scenario("Exercise Six") {
-    Given("I am on the Trainline website ")
-    Homepage.goToWebsite
+  feature("To automate the trailine website") {
 
-    Then("The page title will be correct and the one way option deselected")
-    Homepage.assertpageTitle
-    Homepage.returnButton
-    Homepage.tommorrowButton
-    Homepage.nextDayButton
+    scenario("Exercise Six") {
+      Given("I am on the Trainline website ")
+      Homepage.goToWebsite
 
-    When("I enter the two stations and click submit")
-    Homepage.enterLocation(driver: WebDriver, "London", "Brighton")
+      Then("The page title will be correct and the one way option deselected")
+      Homepage.assertpageTitle
+      Homepage.returnButton
+      Homepage.tommorrowButton
+      Homepage.nextDayButton
 
-    And("I click on submit button")
-    Homepage.submitButton
+      When("I enter the two stations and click submit")
+      Homepage.enterLocation(driver: WebDriver, "London", "Brighton")
 
-    Then("The timetable will show tomorrow's date")
-    Homepage.outDateAssertText
+      And("I click on submit button")
+      Homepage.submitButton
 
-    And("Check the number of adults is displayed on the webpage")
-    TimetablePage.numberOfAdults()
+      Then("The timetable will show tomorrow's date")
+      Homepage.outDateAssertText
 
+      And("Check the number of adults is displayed on the webpage")
+      TimetablePage.checkNoOfAdults()
+
+    }
   }
-
 }
 
 

@@ -4,8 +4,9 @@ import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
 import org.openqa.selenium.WebDriver
-
+import org.scalatest.Assertion
 import utils.BaseFeatureSpec
+
 import scala.util.Random
 
 
@@ -32,8 +33,6 @@ object Homepage extends BaseFeatureSpec {
   //  var nextDayButton: WebElement = _
 
   def outDateAssertText(implicit driver: WebDriver): Unit = {
-
-    import scala.util._
 
     val findOutDate = find(xpath(".//*[@id='tickets']/div/div[1]/table/thead/tr[1]/th[2]/div/h3")).get.text
     findOutDate should include("Sun 7th May 2017")
@@ -64,7 +63,7 @@ object Homepage extends BaseFeatureSpec {
     searchField("DestinationStation").value = "Brighton"
   }
 
-  def SelectNoOfPeople() = {
+  def SelectNoOfPeople(): Unit = {
     val random = Random.nextInt(9)
     val exactNumber = (random + 1).toString
     numberOfAdults = exactNumber + " adults"
@@ -112,6 +111,10 @@ object Homepage extends BaseFeatureSpec {
   def TimetablePage(implicit driver: WebDriver): Unit = {
     click on xpath(".//*[@id='tickets']/div/div[1]/table/thead/tr[2]/th[2]/div")
 
+  }
+
+  def checkNoOfAdults(): Assertion = {
+    find(xpath(".//*[@id='timetable']/div[2]/span[3]")).get.text should be (Homepage.numberOfAdults)
   }
 
 }
